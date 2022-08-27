@@ -1,0 +1,208 @@
+HTML
+
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+<script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+
+
+<div id='drum-machine'>
+  <div class='title'> <h1 id='display'></h1></div>
+ 
+<div id='app'></div>
+  </div>
+  
+  CSS
+  
+  
+.drum-pad{
+     background-color: black;
+    color: white;
+   
+    height: 40px;
+    line-height: 40px;
+    
+    width: 100px;
+}
+body{
+    justify-content: center;
+background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(45,133,253,1) 100%);
+
+
+ text-align:center;
+    
+}
+.title{
+   text-align:center;
+  color:white;
+   
+
+}
+
+
+JS
+
+const bank = [
+  {
+    keyCode: 81,
+    keyTrigger: 'Q',
+    id: 'Heater-1',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3'
+  },
+  {
+    keyCode: 87,
+    keyTrigger: 'W',
+    id: 'Heater-2',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3'
+  },
+  {
+    keyCode: 69,
+    keyTrigger: 'E',
+    id: 'Heater-3',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3'
+  },
+  {
+    keyCode: 65,
+    keyTrigger: 'A',
+    id: 'Heater-4',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3'
+  },
+  {
+    keyCode: 83,
+    keyTrigger: 'S',
+    id: 'Clap',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3'
+  },
+  {
+    keyCode: 68,
+    keyTrigger: 'D',
+    id: 'Open-HH',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3'
+  },
+  {
+    keyCode: 90,
+    keyTrigger: 'Z',
+    id: "Kick-n'-Hat",
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3'
+  },
+  {
+    keyCode: 88,
+    keyTrigger: 'X',
+    id: 'Kick',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3'
+  },
+  {
+    keyCode: 67,
+    keyTrigger: 'C',
+    id: 'Closed-HH',
+    url: 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3'
+  }
+];
+
+function createDrumpad() {
+  const divElement = document.createElement('div');
+divElement.setAttribute('id', 'pad');
+    for (var i = 0; i < bank.length; i++ ) {
+     
+ 
+  var audioFile=document.createElement('audio');
+   audioFile.setAttribute('src',   bank[i].url );
+   audioFile.setAttribute('class', 'clip');
+      audioFile.setAttribute('allow',"autoplay")
+       audioFile.innerHTML =  bank[i].keyTrigger;
+      audioFile.id= bank[i].keyTrigger;
+        var div = document.createElement('div');
+     
+       div.innerHTML = bank[i].keyTrigger;
+        div.id =  bank[i].id;
+      
+      div.innerHTML = bank[i].keyTrigger;
+        
+          div.setAttribute('class', 'drum-pad');
+      var buttonTry = document.createElement('button');
+        
+   
+      div.onclick = function() {playAudio(this)};
+div.appendChild(audioFile);
+     buttonTry.appendChild(div);
+      divElement.appendChild(buttonTry);
+      document.body.appendChild(divElement);
+    }
+}
+
+
+function playAudio(button){
+  try {
+ const box = document.getElementById('display');
+box.textContent = button.id;
+  
+  
+  var audio = new Audio(button.lastChild.src);
+
+button.lastChild.play();
+    } catch (error) {
+      console.error(error);
+    }
+}
+function playAudio2(button){
+ try{
+  var t=String.fromCharCode(button)
+  var z=document.getElementById(t)
+z.play();
+ const box = document.getElementById('display');
+box.textContent = z.parentElement.id;
+    console.log(z.parentElement.id)
+ }catch(error){
+    console.error(error);
+ }
+}
+
+
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    
+    }
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+
+  }
+   componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+  // change code above this line
+ 
+   handleKeyPress(event) {
+     
+     {playAudio2(event.keyCode)}
+      var t=String.fromCharCode(65)
+    
+  }
+  handleChange(e) {
+    this.setState({
+      markdown: e.target.value
+    });
+  
+  
+  }
+  render() {
+    return (
+  <div>
+      {createDrumpad()}
+    
+      </div>
+    );
+  }
+  };
+
+
+
+
+
+
+ReactDOM.render(<App />, document.getElementById('app'));
+
