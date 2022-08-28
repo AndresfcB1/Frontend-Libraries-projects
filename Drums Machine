@@ -5,15 +5,14 @@ HTML
 <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
 
 
-<div id='drum-machine'>
-  <div class='title'> <h1 id='display'></h1></div>
+
  
 <div id='app'></div>
-  </div>
   
   CSS
   
   
+
 .drum-pad{
      background-color: black;
     color: white;
@@ -35,6 +34,16 @@ background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(45,133,253,1) 100%
    text-align:center;
   color:white;
    
+
+}
+p{
+  color:red
+}
+
+#error{
+
+  font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
 
 }
 
@@ -98,63 +107,11 @@ const bank = [
   }
 ];
 
-function createDrumpad() {
-  const divElement = document.createElement('div');
-divElement.setAttribute('id', 'pad');
-    for (var i = 0; i < bank.length; i++ ) {
-     
- 
-  var audioFile=document.createElement('audio');
-   audioFile.setAttribute('src',   bank[i].url );
-   audioFile.setAttribute('class', 'clip');
-      audioFile.setAttribute('allow',"autoplay")
-       audioFile.innerHTML =  bank[i].keyTrigger;
-      audioFile.id= bank[i].keyTrigger;
-        var div = document.createElement('div');
-     
-       div.innerHTML = bank[i].keyTrigger;
-        div.id =  bank[i].id;
-      
-      div.innerHTML = bank[i].keyTrigger;
-        
-          div.setAttribute('class', 'drum-pad');
-      var buttonTry = document.createElement('button');
-        
-   
-      div.onclick = function() {playAudio(this)};
-div.appendChild(audioFile);
-     buttonTry.appendChild(div);
-      divElement.appendChild(buttonTry);
-      document.body.appendChild(divElement);
-    }
-}
 
 
-function playAudio(button){
-  try {
- const box = document.getElementById('display');
-box.textContent = button.id;
-  
-  
-  var audio = new Audio(button.lastChild.src);
 
-button.lastChild.play();
-    } catch (error) {
-      console.error(error);
-    }
-}
-function playAudio2(button){
- try{
-  var t=String.fromCharCode(button)
-  var z=document.getElementById(t)
-z.play();
- const box = document.getElementById('display');
-box.textContent = z.parentElement.id;
-    console.log(z.parentElement.id)
- }catch(error){
-    console.error(error);
- }
-}
+
+
 
 
 
@@ -163,10 +120,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    
+    padbank:[...bank]
     }
     this.handleKeyPress = this.handleKeyPress.bind(this);
-
+ 
   }
    componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress);
@@ -174,14 +131,27 @@ class App extends React.Component {
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress);
   }
-  // change code above this line
+  
  
    handleKeyPress(event) {
-     
-     {playAudio2(event.keyCode)}
-      var t=String.fromCharCode(65)
+     try{
+     console.log(event.keyCode);
+     var t=String.fromCharCode(event.keyCode);
+      var f=document.getElementById(t).parentElement;
+     this.playSound(t,f.id);
+       document.getElementById('error').textContent="";
+     }
+     catch(error)
+       {
+           document.getElementById('error').textContent="That letter does not have sound";
+             document.getElementById('display').textContent="";
+       }
+      
     
   }
+  
+
+  
   handleChange(e) {
     this.setState({
       markdown: e.target.value
@@ -190,12 +160,48 @@ class App extends React.Component {
   
   }
   render() {
+  
+   const padbank1=this.state.padbank.map(i=>   
+                                         <button>
+     <div class='drum-pad' onClick={() => this.playSound(i.keyTrigger,i.id)} id={i.id}  >
+          {i.keyTrigger}
+                                           
+       <audio class='clip' src={i.url} allow='autoplay' id={i.keyTrigger}></audio>
+        </div>
+     </button>
+        );
     return (
-  <div>
-      {createDrumpad()}
+  <div id='drum-machine'>
+        <div class='title'>
+          <h1 id='display'></h1>
+          
+           <p id='error'></p>
+          
+          
+        </div>
+  
+       {padbank1}
+      
     
       </div>
     );
+ 
+                     
+  }
+      playSound(key,id) {
+        try{
+           document.getElementById('display').textContent=id;
+        console.log(key)
+    const sound = document.getElementById(key);
+  sound.play();
+          document.getElementById('error').textContent="";
+        }
+        catch(error)
+          {
+           document.getElementById('error').textContent="That letter does not have sound";
+            document.getElementById('display').textContent="";
+          }
+   
   }
   };
 
@@ -205,4 +211,9 @@ class App extends React.Component {
 
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+
+
+
+
 
