@@ -1,0 +1,461 @@
+HTML
+
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+<script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+
+
+
+ 
+<div id='app'></div>
+
+CSS
+
+
+
+#calc-machine{
+  
+    color: white;
+
+   text-align:center;
+justify-content: center;
+   
+ 
+    
+}
+body{
+   text-align:center;
+    justify-content: center;
+background: linear-gradient(90deg, rgba(34,193,195,1) 0%, rgba(24,34,47,1) 100%);
+
+
+   
+
+
+    
+}
+
+.title{
+   position: absolute;
+  left: 43%;
+  right:43%;
+  top: 10%;
+   text-align:center;
+  padding-top:40px;
+   padding-bottom:10px;
+ border: 5px solid grey;
+ min-width:14%;
+ width: fit-content;
+border-radius:10px;
+  color:white;
+     background-color:black;
+   
+
+}
+#input{
+ 
+    
+  font-size: 25px;
+  font-family: digital;
+  color: white;
+}
+
+
+
+#decimal,#divide,#multiply,#subtract,#add{
+   background-color: lightblue;
+  
+}
+#equals{
+   background-color: orange
+}
+#clear{
+
+width:70%;
+  text-align:center;
+   background-color: orange
+}
+/* CSS */
+button {
+  align-items: center;
+  appearance: none;
+  background-color: #FCFCFD;
+  border-radius: 4px;
+  border-width: 0;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #36395A;
+  cursor: pointer;
+  display: inline;
+  font-family: "JetBrains Mono",monospace;
+  height: 48px;
+  justify-content: left;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 7%;
+  padding-right: 10%;
+
+ margin:3px;
+  
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+button:focus {
+  box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+}
+button:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+button:active {
+  box-shadow: #D6D6E7 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) { button{
+   font-size:13px;
+      margin:0px;
+  width:10%
+  
+  },
+  #display{
+  
+  font-size: 13px;
+  
+
+
+}
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  button{
+    
+        font-size:13px;
+          margin:1px;
+  width:5%
+  },
+#display{
+  
+  font-size: 5px;
+  
+
+
+}}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {button{
+    
+   font-size:13px;
+       margin:1px;
+  width:10%
+      
+  },
+#display{
+  
+  font-size: 13px;
+  
+
+
+}}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) { button{
+    
+   font-size:16px
+      
+  },
+#display{
+  
+  font-size: 16px;
+  
+
+
+}}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) { button{
+    
+   font-size:20px
+  },
+  #display{
+  
+  font-size: 20px;
+  
+
+
+}
+  }
+
+
+JS
+
+const calcBot1 = [
+  
+  {
+    keyCode: 49,
+    keyTrigger: 1,
+    id: 'one'
+  },
+  {
+    keyCode: 50,
+    keyTrigger: 2,
+    id: 'two'
+  },
+  {
+    keyCode: 51,
+    keyTrigger: 3,
+    id: 'three'
+  }];
+const calcBot2 = [
+  {
+    keyCode: 52,
+    keyTrigger: 4,
+    id: 'four'
+  },
+  {
+    keyCode: 53,
+    keyTrigger: 5,
+    id: 'five'
+  },
+  {
+    keyCode: 54,
+    keyTrigger: 6,
+    id: "six"
+  }];
+const calcBot3 = [
+  {
+    keyCode: 55,
+    keyTrigger: 7,
+    id: 'seven'
+  },
+  {
+    keyCode: 56,
+    keyTrigger: 8,
+    id: 'eight',
+  },
+   {
+    keyCode: 57,
+    keyTrigger: 9,
+    id: 'nine',
+  }];
+const calcBot4 = [
+  {
+    keyCode: 48,
+    keyTrigger: 0,
+    id: 'zero'
+  }
+  
+];
+
+
+var none='';
+    var num=[];
+
+var mipunto=false;
+
+
+
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    calc1:[...calcBot1],
+       calc2:[...calcBot2],
+        calc3:[...calcBot3],
+     calc4:[...calcBot4],
+    
+
+      
+
+    
+    }
+    this.handleClick = this.handleClick.bind(this);
+     this.eraseClick = this.eraseClick.bind(this);
+   this.equalClick = this.equalClick.bind(this);
+  }
+ 
+  
+   eraseClick(e) {
+     try{
+    
+    
+     var paragraph= document.getElementById('input');
+ paragraph.textContent = '0';
+      none='';
+       num=[];
+        mipunto=false;
+     }
+     catch(error)
+       {
+           console.log(error)
+             
+       }
+      
+    
+  }
+  equalClick() {
+     try{
+   
+   
+
+      var operators=num.join("");
+      
+      var result=eval(operators);
+       console.log(result);
+       num=[];
+     var paragraph= document.getElementById('input');
+ paragraph.textContent = result;
+num.push(result);
+       mipunto=false;
+     }
+     catch(error)
+       {
+           console.log(error)
+             
+       }
+      
+    
+  }
+  
+
+  
+ 
+   handleClick(e) {
+       var inputText=document.getElementById('input').textContent;
+   
+ console.log(mipunto)
+       var previous=num[num.length - 1]
+     try{
+       
+       if(e=='*'|e=='/'|e=='+'|e=='-')
+         {
+           mipunto=false;
+           if(previous=='*'|previous=='/'|previous=='+'|previous=='-')
+             {
+             if(e=='-')
+             {
+               console.log('entre1')
+               console.log('operacion de signos');
+             }
+           else if(e=='*'|e=='/'|e=='+')
+                   {
+                     console.log('entre2')
+                   num.pop();
+                    if(num[num.length - 1]=='*'|num[num.length - 1]=='+'|num[num.length - 1]=='/')
+                      {num.splice(num.length - 1)}
+                      
+                     
+                   }
+            
+         }
+         }
+         if(e==='.'&& mipunto===false)
+           {
+             mipunto=true;
+          
+              num.push(e);
+     var paragraph= document.getElementById('input');
+
+       none=none+e;
+       paragraph.textContent ='';
+       paragraph.textContent +=none;
+             
+           }
+       else if(e==='.'&& mipunto===true)
+         {
+           console.log('mucho punto');
+         }
+       
+    else if(e==0&&document.getElementById('input').textContent=='0')
+      {
+        console.log(e);
+    
+      }  
+         
+    
+       else{
+    num.push(e)
+         console.log(num)
+     var paragraph= document.getElementById('input');
+
+       none=none+e;
+       paragraph.textContent ='';
+       paragraph.textContent +=none;
+       }
+     }
+     catch(error)
+       {
+           console.log(error)
+             
+       }
+      
+    
+  }
+  
+
+  
+ 
+  render() {
+  
+   const calcLine1=this.state.calc1.map(i=>                                            <button id={i.id}   onClick={() => this.handleClick(i.keyTrigger)}>  {i.keyTrigger}  </button>
+        );
+      const calcLine2=this.state.calc2.map(i=>                                            <button id={i.id}  onClick={() => this.handleClick(i.keyTrigger)} >  {i.keyTrigger}  </button>
+        );
+      const calcLine3=this.state.calc3.map(i=>                                            <button id={i.id}  onClick={() => this.handleClick(i.keyTrigger)} >  {i.keyTrigger}  </button>
+        );
+      const calcLine4=this.state.calc4.map(i=>                                            <button id={i.id}  onClick={() => this.handleClick(i.keyTrigger)} >  {i.keyTrigger}  </button>
+        );
+    return (
+  <div id='calc-machine'>
+         
+        <div class='title'>
+     
+         <div id='display'>
+         <p id='input'></p>
+          
+       </div>
+         
+          
+         
+   
+         
+          
+          <div> {calcLine1} <button id='add' onClick={() => this.handleClick('+')}>+</button></div>
+          <br></br>
+          <div> {calcLine2}  <button id='subtract' onClick={() => this.handleClick('-')} >-</button></div>
+            <br></br>
+           <div> {calcLine3}  <button id='multiply' onClick={() => this.handleClick('*')} >x</button></div>
+            <br></br>
+           <div> <button id='decimal' onClick={() => this.handleClick('.')}>.</button>{calcLine4}<button id='equals' onClick={this.equalClick}>=</button><button onClick={() => this.handleClick('/')} id='divide'>/</button></div>
+            <br></br>
+          <div> <button id='clear' class='button' onClick={this.eraseClick} >AC</button></div>
+       </div>
+ 
+      </div>
+       
+    );
+ 
+                     
+  }
+      
+  };
+
+
+
+
+
+
+ReactDOM.render(<App />, document.getElementById('app'));
